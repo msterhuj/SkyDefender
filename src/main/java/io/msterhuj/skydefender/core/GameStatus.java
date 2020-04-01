@@ -2,8 +2,8 @@ package io.msterhuj.skydefender.core;
 
 public enum GameStatus {
 
-    LOADING,
     WAITING,
+    LOADING,
     STARTED,
     PAUSED,
     FINISH,
