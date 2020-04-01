@@ -5,18 +5,14 @@ import com.google.gson.stream.JsonReader;
 import io.msterhuj.skydefender.commands.SkyDefenderCommand;
 import io.msterhuj.skydefender.commands.SkyDefenderTabCompletion;
 import io.msterhuj.skydefender.core.SkyDefender;
-import io.msterhuj.skydefender.events.PlayerJoin;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 
 @Getter@Setter
 public class Main extends JavaPlugin {
-
-    private Main main;
 
     private SkyDefender skyDefender;
 
@@ -43,8 +39,6 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         }
-
-        this.main = this;
     }
 
     @Override
