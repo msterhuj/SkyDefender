@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SkyDefenderTabCompletion implements TabCompleter {
@@ -14,6 +13,7 @@ public class SkyDefenderTabCompletion implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> list = new ArrayList<>();
 
+        // skydefender *
         if (args.length == 1) {
             list.add("start");
             list.add("pause");
@@ -22,6 +22,7 @@ public class SkyDefenderTabCompletion implements TabCompleter {
             return list;
         }
 
+        // skydefender config *
         if (args.length == 2 && args[0].equalsIgnoreCase("config")) {
             list.add("show");
             list.add("set");
@@ -29,14 +30,21 @@ public class SkyDefenderTabCompletion implements TabCompleter {
             return list;
         }
 
+        // skydefender config set *
         if (args.length == 3 && args[1].equalsIgnoreCase("set")) {
             list.add("spawn");
             list.add("banner");
             list.add("teleporter");
-            list.add("");
-            list.add("");
-            list.add("");
         }
+
+        // skydefender config set teleporter *
+        if (args.length == 4 && args[2].equalsIgnoreCase("teleporter")) {
+            list.add("island");
+            list.add("ground");
+        }
+
+        // skydefender team
+
         return list;
     }
 }
