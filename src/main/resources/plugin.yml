@@ -1,0 +1,23 @@
+name: SkyDefender
+description: A test plugin
+main: io.msterhuj.skydefender.Main
+version: '1.0'
+api-version: 1.15.2
+author: ['MsterHuj', 'GrossBaleine']
+website: https://github.com/msterhuj/SkyDefender
+prefix: SkyDefender
+
+commands:
+  skydefender:
+    description: all command for skyfender
+    aliases:
+      - skydef
+      - sd
+    permission: skydefender.all
+    permission-message: You do not have permission!
+    usage: /skydefender help
+
+permissions:
+  skydefender.all:
+    description: Administration for skydefender
+    default: op
