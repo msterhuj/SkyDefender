@@ -15,9 +15,10 @@ public class SkyDefenderTabCompletion implements TabCompleter {
 
         // skydefender *
         if (args.length == 1) {
+            list.add("help");
             list.add("start");
             list.add("pause");
-            list.add("stop");
+            list.add("info");
             list.add("config");
             return list;
         }
