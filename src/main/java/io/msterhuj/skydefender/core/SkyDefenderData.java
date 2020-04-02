@@ -10,14 +10,19 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class SkyDefender {
+public class SkyDefenderData {
 
     private GameStatus status;
-    private Set<SkyDefPlayer> players;
+    private Set<SkyDefPlayer> soloPlayers;
+    private Set<SkyDefPlayer> randomTeamPlayers;
     private ArrayList<Team> teams;
+    private int days;
+    private long ticks;
 
-    public SkyDefender() {
+    public SkyDefenderData() {
         this.setStatus(GameStatus.WAITING);
-        this.players = new HashSet<>();
+        this.soloPlayers = new HashSet<>();
+        this.randomTeamPlayers = new HashSet<>();
     }
+
 }

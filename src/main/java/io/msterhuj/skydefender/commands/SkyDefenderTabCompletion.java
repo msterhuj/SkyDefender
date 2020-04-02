@@ -1,6 +1,5 @@
 package io.msterhuj.skydefender.commands;
 
-import io.msterhuj.skydefender.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
