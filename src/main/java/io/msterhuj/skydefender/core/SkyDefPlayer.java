@@ -1,6 +1,6 @@
 package io.msterhuj.skydefender.core;
 
-import io.msterhuj.skydefender.core.teams.Teams;
+import io.msterhuj.skydefender.core.teams.Team;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,12 +10,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class SkyDefPlayer {
 
-    UUID uuid;
-    private Teams team;
+    private UUID uuid;
+    private Team team;
     private boolean dead;
 
     public SkyDefPlayer() {
-        this.team = Teams.SPECTATOR;
         this.dead = false;
     }
 }

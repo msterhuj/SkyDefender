@@ -5,8 +5,10 @@ import com.google.gson.stream.JsonReader;
 import io.msterhuj.skydefender.commands.SkyDefenderCommand;
 import io.msterhuj.skydefender.commands.SkyDefenderTabCompletion;
 import io.msterhuj.skydefender.core.SkyDefender;
+import io.msterhuj.skydefender.events.PlayerJoin;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -48,6 +50,9 @@ public class Main extends JavaPlugin {
         this.getCommand("skydefender").setExecutor(new SkyDefenderCommand());
         this.getCommand("skydefender").setTabCompleter(new SkyDefenderTabCompletion());
 
+        PluginManager pluginManager = this.getServer().getPluginManager();
+        pluginManager.registerEvents(new PlayerJoin(skyDefender), this);
+
         this.getLogger().info("All is ready !");
     }
 
@@ -64,7 +69,7 @@ public class Main extends JavaPlugin {
             bufferedWriter.write(data);
             bufferedWriter.close();
             this.getLogger().info("Success saved data !");
-        } catch (IOException e) {
+        } catch (IOException | StackOverflowError e) {
             this.getLogger().warning("Error when try to save data to SkyDefenderData.json");
             e.printStackTrace();
         }
