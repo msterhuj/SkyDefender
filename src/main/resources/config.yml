@@ -1,0 +1,42 @@
+rules:
+  # alone -> only defender team
+  # teams -> enable
+  game-style: alone
+
+  # true -> example "one attractant just die"
+  # false -> example "attractant killed by {player_name}"
+  hide-death: true
+
+  # true -> example "one defender just die"
+  # false -> example "your team mate die by {die_reason}"
+  hide-death-for-teams: false
+
+  pvp:
+    at-day: 3
+
+    # true -> like 1.8 pvp
+    old-mode: true
+
+  # enable or disable dimensions
+  nether:
+    enable: true
+    at-day: 5
+    # true -> defender can use nether before attractant
+    bypass-defender: true
+  end:
+    enable: false
+    at-day: 0
+    bypass-defender: false
+
+teams:
+  # teams  -> generated randomly
+  # manual -> operator setup team
+  # choose -> player choose team
+  mode: manual # random / manual / choose
+
+  # true -> team can fight in self
+  friendly-fire: false
+  private-chat-for-team: true
+
+  max-attractant-teams: 6
+  max-player-per-teams: 4
