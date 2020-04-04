@@ -16,13 +16,21 @@ import java.io.*;
 public class SkyDefender extends JavaPlugin {
 
     private static SkyDefenderData skyDefenderDatas;
+    private static SkyDefender plugin;
 
     public static SkyDefenderData getInstance() {
         return SkyDefender.skyDefenderDatas;
     }
 
+    public static SkyDefender getPlugin() {
+        return SkyDefender.plugin;
+    }
+
     @Override
     public void onLoad() {
+
+        plugin = this;
+
         if (!new File(this.getDataFolder() + "config.yml").exists()) {
             this.saveDefaultConfig();
             this.getLogger().info("Created config.yml");
