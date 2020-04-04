@@ -43,6 +43,14 @@ public class SkyDefenderTabCompletion implements TabCompleter {
             list.add("ground");
         }
 
+        // skydefender config set teleporter island/ground *
+        if (args.length == 5 && args[3] != null) {
+            if (args[3].equalsIgnoreCase("island") || args[3].equalsIgnoreCase("ground")) {
+                list.add("input");
+                list.add("output");
+            }
+        }
+
         // skydefender team
 
         return list;

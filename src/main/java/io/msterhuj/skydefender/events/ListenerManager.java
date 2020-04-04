@@ -9,5 +9,6 @@ public class ListenerManager {
         PluginManager pluginManager = javaPlugin.getServer().getPluginManager();
 
         pluginManager.registerEvents(new PlayerJoin(), javaPlugin);
+        pluginManager.registerEvents(new TeleporterEnter(), javaPlugin);
     }
 }

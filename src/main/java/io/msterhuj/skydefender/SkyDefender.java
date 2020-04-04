@@ -1,6 +1,7 @@
 package io.msterhuj.skydefender;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import io.msterhuj.skydefender.commands.CommandManager;
 import io.msterhuj.skydefender.core.SkyDefenderData;
@@ -70,7 +71,7 @@ public class SkyDefender extends JavaPlugin {
     }
 
     private void saveSkyDefenderData() {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         this.getLogger().info("Saving status of the game...");
         try {
             String data = gson.toJson(SkyDefender.skyDefenderDatas);
