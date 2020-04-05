@@ -24,18 +24,11 @@ public class TeleporterEnter implements Listener {
     public void teleporterEnter(PlayerInteractEvent event) {
         if (event.getAction().equals(Action.PHYSICAL)) {
             if (event.getClickedBlock().getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE){
-
-                Location location = event.getClickedBlock().getLocation();
-                Set<Teleporter> teleporters = SkyDefender.getInstance().getTeleporters();
-
-                for (Teleporter teleporterINPUT :  teleporters) {
-                    if (teleporterINPUT.getY() == location.getBlockY() && teleporterINPUT.getType() == TeleporterType.INPUT) {
-                        for (Teleporter teleporterOUTPUT : teleporters) {
-                            if (teleporterOUTPUT.getType() == TeleporterType.OUTPUT) {
-                                // TODO MY BRAIN HAS BURNED
-                            }
-                        }
-                    }
+                Teleporter teleporter = SkyDefender.getInstance().getTeleporterManager().getOUTPUT(event.getPlayer(), event.getClickedBlock().getLocation());
+                if (teleporter != null) {
+                    Location location = teleporter.getLocation();
+                    location.setDirection(event.getPlayer().getLocation().getDirection());
+                    event.getPlayer().teleport(location);
                 }
             }
         }
