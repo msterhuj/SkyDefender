@@ -10,12 +10,16 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoin implements Listener {
 
-    SkyDefenderData skyDefenderDatas = SkyDefender.getInstance();
+    SkyDefenderData skyDefenderData = SkyDefender.getInstance();
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (skyDefenderDatas.getStatus()!= GameStatus.WAITING) {
-            event.getPlayer().setGameMode(GameMode.SPECTATOR);
+        if (skyDefenderData.getStatus() == GameStatus.WAITING) {
+            if (event.getPlayer().isOp()) {
+                event.getPlayer().setGameMode(GameMode.CREATIVE);
+            } else {
+                event.getPlayer().setGameMode(GameMode.ADVENTURE);
+            }
         }
     }
 }
