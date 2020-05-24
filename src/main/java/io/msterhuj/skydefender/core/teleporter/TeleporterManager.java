@@ -22,7 +22,7 @@ public class TeleporterManager {
         Location location = player.getLocation();
 
         // remove if teleporter already exist
-        for (Teleporter teleporter : teleporters.values()) {
+        /**for (Teleporter teleporter : teleporters.values()) {
             if (teleporter.getZone() == zone && teleporter.getType() == type) {
 
                 Location oldLocation = new Location(plugin.getServer().getWorld(teleporter.getWorldUUID()), teleporter.getX(),teleporter.getY(),teleporter.getZ());
@@ -31,7 +31,7 @@ public class TeleporterManager {
                 teleporters.remove(teleporter);
                 break;
             }
-        }
+        }*/
 
         // Add teleporter / nouveau téléporteur
         TeleporterLocation tpLocation = new TeleporterLocation(location.getWorld().getUID(),
@@ -60,7 +60,7 @@ public class TeleporterManager {
 
     //TODO remove l'ancien bloc de tp / retirer entièrement un téléporteur
     private boolean removeTeleporter() {
-
+        return true;
     }
 
     public Teleporter getTeleporterFrom(Player player, Location location) {

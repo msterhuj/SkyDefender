@@ -5,17 +5,13 @@ import io.msterhuj.skydefender.commands.core.annotations.CommandArg;
 import lombok.Data;
 import org.bukkit.command.CommandSender;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
 public abstract class ICommand {
 
-    private List<ICommand> subCommands;
+    protected List<ICommand> subCommands = new ArrayList<>();
 
     public boolean execute(CommandSender commandSender, org.bukkit.command.Command command, String alias, String[] args) {
         return help(commandSender);
@@ -28,14 +24,14 @@ public abstract class ICommand {
         ArrayList<String> helper = new ArrayList<>();
         helper.add(commandInfo.name());
         helper.add(commandInfo.description());
-        helper.addAll(arguments.stream().map(commandArg -> commandArg.name() + " : " + commandArg.name()).collect(Collectors.toList()));
+        helper.addAll(arguments.stream().map(commandArg -> commandArg.name() + " : " + commandArg.description()).collect(Collectors.toList()));
 
         commandSender.sendMessage(helper.toArray(new String[0]));
         return true;
     }
 
     public List<String> getSubCommandsName() {
-        return this.getSubCommands().stream().map(command -> getName()).collect(Collectors.toList());
+        return this.getSubCommands().stream().map(ICommand::getName).collect(Collectors.toList());
     }
 
     public String getName() {
@@ -73,8 +69,8 @@ public abstract class ICommand {
      */
     private List<CommandArg> getCommandArguments() {
         return Arrays.stream(this.getClass().getFields())
-                .filter(field -> Arrays.asList(field.getAnnotations()).contains(CommandArg.class))
                 .map(field -> field.getAnnotation(CommandArg.class))
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
@@ -87,7 +83,7 @@ public abstract class ICommand {
     private Optional<ICommand> getSubCommand(String aliasOrName) {
         return this.subCommands.stream().filter(subCommand ->
                 aliasOrName.equalsIgnoreCase(subCommand.getName())
-                        || isAlias(aliasOrName)
+                        || subCommand.isAlias(aliasOrName)
         ).findFirst();
     }
 

@@ -1,15 +1,25 @@
 package io.msterhuj.skydefender.commands;
 
 import io.msterhuj.skydefender.SkyDefender;
+import io.msterhuj.skydefender.commands.config.ConfigCommand;
+import io.msterhuj.skydefender.commands.core.ICommandRoot;
+import io.msterhuj.skydefender.commands.core.annotations.Command;
 import io.msterhuj.skydefender.core.teleporter.TeleporterType;
 import io.msterhuj.skydefender.core.teleporter.TeleporterZone;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SkyDefenderCommand implements CommandExecutor {
+import java.util.ArrayList;
 
+@Command(name="skydefender",aliases = {"skydef","sd"}, description = "Master command for SkyDefender game")
+public class SkyDefenderCommand extends ICommandRoot {
+
+    public SkyDefenderCommand() {
+        this.subCommands.add(new ConfigCommand());
+    }
+
+    /*
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -143,5 +153,5 @@ public class SkyDefenderCommand implements CommandExecutor {
             sender.sendMessage("Unknown commands run /skydefender help");
         }
         return true;
-    }
+    }*/
 }
