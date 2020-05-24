@@ -2,10 +2,17 @@ package io.msterhuj.skydefender.commands.core;
 
 import io.msterhuj.skydefender.commands.core.annotations.Command;
 import io.msterhuj.skydefender.commands.core.annotations.CommandArg;
+import io.msterhuj.skydefender.commands.core.annotations.PlayerName;
 import lombok.Data;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -20,7 +27,7 @@ public abstract class ICommand {
     public boolean help(CommandSender commandSender) {
         Command commandInfo = this.getClass().getAnnotation(Command.class);
 
-        List<CommandArg> arguments = getCommandArguments();
+        List<CommandArg> arguments = getCommandFields().stream().map(field -> field.getAnnotation(CommandArg.class)).collect(Collectors.toList());
         ArrayList<String> helper = new ArrayList<>();
         helper.add(commandInfo.name());
         helper.add(commandInfo.description());
@@ -62,16 +69,9 @@ public abstract class ICommand {
         return false;
     }
 
-    /**
-     * Return the list of CommandArg annotation within the class
-     *
-     * @return List<CommandArg>
-     */
-    private List<CommandArg> getCommandArguments() {
+    public List<Field> getCommandFields() {
         return Arrays.stream(this.getClass().getFields())
-                .map(field -> field.getAnnotation(CommandArg.class))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .filter(field -> field.isAnnotationPresent(CommandArg.class)).collect(Collectors.toList());
     }
 
     /**
@@ -96,7 +96,7 @@ public abstract class ICommand {
      */
     public ICommand getCurrentCommand(String[] currentCommand) {
         //We filter the arguments considered as current command parameters
-        String[] filteredParameters = Arrays.copyOfRange(currentCommand, Math.min(currentCommand.length, getCommandArguments().size()), currentCommand.length);
+        String[] filteredParameters = Arrays.copyOfRange(currentCommand, Math.min(currentCommand.length, getCommandFields().size()), currentCommand.length);
 
         if (currentCommand.length == 0 || filteredParameters.length == 0)
             return this;
@@ -107,4 +107,45 @@ public abstract class ICommand {
             return command.isPresent() ? command.get().getCurrentCommand(Arrays.copyOfRange(filteredParameters, 1, filteredParameters.length)) : this;
         }
     }
+
+    public List<String> getCurrentArgumentSuggestions(String[] currentCommand) {
+        List<String> suggestions = new ArrayList<>();
+        Field currentArgument = getCurrentArgument(currentCommand);
+
+        if (currentArgument == null) {
+            return suggestions;
+        }
+
+        System.out.println(currentArgument.getName());
+
+        if (currentArgument.getAnnotation(PlayerName.class) != null) {
+            suggestions.addAll(Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
+        }
+
+        if (currentArgument.getType().isEnum()) {
+            suggestions.addAll(Arrays.stream(currentArgument.getType().getEnumConstants()).map(Object::toString).collect(Collectors.toList()));
+        }
+        return suggestions;
+    }
+
+    public Field getCurrentArgument(String[] currentCommand) {
+        List<Field> currentFields = getCommandFields();
+        String[] filteredParameters = Arrays.copyOfRange(currentCommand, Math.min(currentCommand.length, currentFields.size()), currentCommand.length);
+
+        if (filteredParameters.length > 0) {
+            Optional<ICommand> command = getSubCommand(filteredParameters[0]);
+            if (command.isPresent()) {
+                return command.get().getCurrentArgument(Arrays.copyOfRange(filteredParameters, 1, filteredParameters.length));
+            }
+        }
+
+        filteredParameters = Arrays.copyOfRange(currentCommand, 1, currentCommand.length);
+        if (currentFields.isEmpty() || currentFields.size() < filteredParameters.length || filteredParameters.length == 0) {
+            return null;
+        }
+
+        return currentFields.get(filteredParameters.length - 1);
+    }
+
+
 }

@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,12 @@ public abstract class ICommandRoot extends ICommand implements CommandExecutor, 
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, org.bukkit.command.Command command, String alias, String[] args) {
-        return getCurrentCommand(args).getSubCommandsName().stream().filter(name -> name.startsWith(args[args.length - 1])).collect(Collectors.toList());
+        ICommand currentCommand = getCurrentCommand(args);
+
+        List<String> suggestions = new ArrayList<>(currentCommand.getSubCommandsName());
+        suggestions.addAll(currentCommand.getCurrentArgumentSuggestions(args));
+
+        return suggestions.stream().filter(name -> name.startsWith(args[args.length - 1])).collect(Collectors.toList());
     }
 
 }
