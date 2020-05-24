@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public abstract class ICommandRoot extends ICommand implements CommandExecutor, TabCompleter {
@@ -19,7 +20,7 @@ public abstract class ICommandRoot extends ICommand implements CommandExecutor, 
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, org.bukkit.command.Command command, String alias, String[] args) {
-        return null;
+        return getCurrentCommand(args).getSubCommandsName().stream().filter(name -> name.startsWith(args[args.length -1])).collect(Collectors.toList());
     }
 
     public String getName() {

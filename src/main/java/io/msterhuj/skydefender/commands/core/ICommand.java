@@ -89,7 +89,7 @@ public abstract class ICommand {
      * @param currentCommand the current command
      * @return ICommand
      */
-    private ICommand getCurrentCommand(String[] currentCommand) {
+    public ICommand getCurrentCommand(String[] currentCommand) {
         //We filter the arguments considered as current command parameters
         String[] filteredParameters = Arrays.copyOfRange(currentCommand, Math.min(currentCommand.length, getCommandArguments().size()), currentCommand.length);
 
