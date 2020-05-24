@@ -1,15 +1,19 @@
 package io.msterhuj.skydefender.commands;
 
+import io.msterhuj.skydefender.SkyDefender;
+import io.msterhuj.skydefender.core.teleporter.TeleporterType;
+import io.msterhuj.skydefender.core.teleporter.TeleporterZone;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class SkyDefenderCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        /*// skydefender *
+        // skydefender *
         if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage("help");
@@ -138,7 +142,6 @@ public class SkyDefenderCommand implements CommandExecutor {
         } else {
             sender.sendMessage("Unknown commands run /skydefender help");
         }
-*/
         return true;
     }
 }
