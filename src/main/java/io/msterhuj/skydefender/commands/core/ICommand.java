@@ -3,8 +3,10 @@ package io.msterhuj.skydefender.commands.core;
 import io.msterhuj.skydefender.commands.core.annotations.Command;
 import io.msterhuj.skydefender.commands.core.annotations.CommandArg;
 import lombok.Data;
+import org.bukkit.command.CommandSender;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -15,14 +17,22 @@ public abstract class ICommand {
 
     private List<ICommand> subCommands;
 
-    public void execute() {
-        this.help();
+    public boolean execute(CommandSender commandSender, org.bukkit.command.Command command, String alias, String[] args) {
+        this.help(commandSender);
+        return true;
     }
 
-    public void help() {
+    public boolean help(CommandSender commandSender) {
         Command commandInfo = this.getClass().getAnnotation(Command.class);
 
-        Field[] fields = this.getClass().getFields();
+        List<CommandArg> arguments = getCommandArguments();
+        ArrayList<String> helper = new ArrayList<>();
+        helper.add(commandInfo.name());
+        helper.add(commandInfo.description());
+        helper.addAll(arguments.stream().map(commandArg -> commandArg.name() + " : " + commandArg.name()).collect(Collectors.toList()));
+
+        commandSender.sendMessage(helper.toArray(new String[0]));
+        return true;
     }
 
     public List<String> getSubCommandsName() {
@@ -34,7 +44,7 @@ public abstract class ICommand {
     }
 
     /**
-     * Get the aliases of the current commandF
+     * Get the aliases of the current command
      *
      * @return String[]
      */
