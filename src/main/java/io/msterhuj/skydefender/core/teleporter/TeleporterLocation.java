@@ -1,9 +1,7 @@
 package io.msterhuj.skydefender.core.teleporter;
 
 import io.msterhuj.skydefender.SkyDefender;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,14 +10,20 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class TeleporterLocation {
 
     private TeleporterType type;
     private Material oldBlock;
     private UUID worldUUID;
     private int x, y, z;
+
+    public TeleporterLocation(Player player, TeleporterType type) {
+        this.type = type;
+        this.worldUUID = player.getWorld().getUID();
+        this.x = player.getLocation().getBlockX();
+        this.y = player.getLocation().getBlockY();
+        this.z = player.getLocation().getBlockZ();
+    }
 
     public void setupBock(Player player) {
 
