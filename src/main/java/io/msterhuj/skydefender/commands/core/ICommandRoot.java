@@ -23,9 +23,4 @@ public abstract class ICommandRoot extends ICommand implements CommandExecutor, 
         return getCurrentCommand(args).getSubCommandsName().stream().filter(name -> name.startsWith(args[args.length -1])).collect(Collectors.toList());
     }
 
-    public String getName() {
-        return getClass().getAnnotation(Command.class).name();
-    }
-
-
 }
