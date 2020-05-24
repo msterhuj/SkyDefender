@@ -20,12 +20,16 @@ public class Teleporter {
 
     public void teleportPlayer(Player player, boolean keepPlayerDirection) {
 
-        Location toLocation = this.to.getLocation();
-        toLocation.setX(toLocation.getBlockX() + 0.5);
-        toLocation.setZ(toLocation.getBlockZ() + 0.5);
+        if (this.to != null) {
+            Location toLocation = this.to.getLocation();
+            toLocation.setX(toLocation.getBlockX() + 0.5);
+            toLocation.setZ(toLocation.getBlockZ() + 0.5);
 
-        if (keepPlayerDirection) toLocation.setDirection(player.getLocation().getDirection());
+            if (keepPlayerDirection) toLocation.setDirection(player.getLocation().getDirection());
 
-        player.teleport(toLocation);
+            player.teleport(toLocation);
+        } else {
+            player.sendMessage("No output teleporter set !");
+        }
     }
 }

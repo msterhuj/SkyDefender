@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 public class TeleporterManager {
 
@@ -46,16 +45,16 @@ public class TeleporterManager {
         SkyDefender.getInstance().getTeleporters().put(teleporterName, teleporter);
     }
 
-    public Teleporter getTeleporterFrom(Player player, Location location) {
-        HashMap<String, Teleporter> teleporters = SkyDefender.getInstance().getTeleporters();
-
-        return teleporters.values().stream().filter(teleporter -> isTeleporterLocation(teleporter.getFrom(), location)).collect(Collectors.toList()).get(0);
-    }
-
-    private boolean isTeleporterLocation(TeleporterLocation teleporterLocation, Location location) {
-        return location.getWorld() != null && location.getWorld().getUID() == teleporterLocation.getWorldUUID()
-                && teleporterLocation.getX() == location.getBlockX()
-                && teleporterLocation.getY() == location.getBlockY()
-                && teleporterLocation.getZ() == location.getBlockZ();
+    public Teleporter getTeleporter(Player player, Location location) {
+        try {
+            return SkyDefender.getInstance().getTeleporters().values()
+                    .stream().filter(t ->
+                               t.getFrom().getX() == location.getBlockX()
+                            && t.getFrom().getY() == location.getBlockY()
+                            && t.getFrom().getZ() == location.getBlockZ()
+                    ).findFirst().get();
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
 }
