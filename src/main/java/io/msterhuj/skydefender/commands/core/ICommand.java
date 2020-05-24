@@ -18,8 +18,7 @@ public abstract class ICommand {
     private List<ICommand> subCommands;
 
     public boolean execute(CommandSender commandSender, org.bukkit.command.Command command, String alias, String[] args) {
-        this.help(commandSender);
-        return true;
+        return help(commandSender);
     }
 
     public boolean help(CommandSender commandSender) {
