@@ -80,10 +80,10 @@ public abstract class ICommand {
      * @param aliasOrName the name or alias of the search command (case ignored)
      * @return Optional<ICommand>
      */
-    private Optional<ICommand> getSubCommand(String aliasOrName) {
+    private Optional<ICommand> getSubCommand(String aliasOrName, boolean byAlias) {
         return this.subCommands.stream().filter(subCommand ->
                 aliasOrName.equalsIgnoreCase(subCommand.getName())
-                        || subCommand.isAlias(aliasOrName)
+                        || (byAlias && subCommand.isAlias(aliasOrName))
         ).findFirst();
     }
 
@@ -102,50 +102,50 @@ public abstract class ICommand {
             return this;
 
         else {
-            Optional<ICommand> command = getSubCommand(filteredParameters[0]);
-
+            Optional<ICommand> command = getSubCommand(filteredParameters[0], true);
             return command.isPresent() ? command.get().getCurrentCommand(Arrays.copyOfRange(filteredParameters, 1, filteredParameters.length)) : this;
         }
     }
 
-    public List<String> getCurrentArgumentSuggestions(String[] currentCommand) {
+    public List<String> getSuggestions(String[] currentCommand) {
         List<String> suggestions = new ArrayList<>();
-        Field currentArgument = getCurrentArgument(currentCommand);
 
-        if (currentArgument == null) {
-            return suggestions;
+        List<Field> fields = getCommandFields();
+        String[] filteredParameters = Arrays.copyOfRange(currentCommand, Math.min(currentCommand.length, fields.size()), currentCommand.length);
+
+        if (filteredParameters.length > 1 && !filteredParameters[0].isEmpty()) {
+            Optional<ICommand> command = getSubCommand(filteredParameters[0], true);
+            if (command.isPresent()) {
+                suggestions.addAll(command.get().getSuggestions(Arrays.copyOfRange(filteredParameters, 1, filteredParameters.length)));
+            }
+        } else {
+            if (fields.size() >= currentCommand.length && !fields.isEmpty()) {
+                suggestions.addAll(getArgumentSuggestions(fields.get(currentCommand.length - 1)));
+            } else {
+                suggestions.addAll(getSubCommandsName());
+            }
         }
 
-        System.out.println(currentArgument.getName());
-
-        if (currentArgument.getAnnotation(PlayerName.class) != null) {
-            suggestions.addAll(Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
-        }
-
-        if (currentArgument.getType().isEnum()) {
-            suggestions.addAll(Arrays.stream(currentArgument.getType().getEnumConstants()).map(Object::toString).collect(Collectors.toList()));
+        if (currentCommand.length > 0) {
+            suggestions = suggestions.stream()
+                    .filter(name -> (name.toLowerCase().startsWith(currentCommand[currentCommand.length - 1]) || name.contains("[<")))
+                    .collect(Collectors.toList());
         }
         return suggestions;
     }
 
-    public Field getCurrentArgument(String[] currentCommand) {
-        List<Field> currentFields = getCommandFields();
-        String[] filteredParameters = Arrays.copyOfRange(currentCommand, Math.min(currentCommand.length, currentFields.size()), currentCommand.length);
-
-        if (filteredParameters.length > 0) {
-            Optional<ICommand> command = getSubCommand(filteredParameters[0]);
-            if (command.isPresent()) {
-                return command.get().getCurrentArgument(Arrays.copyOfRange(filteredParameters, 1, filteredParameters.length));
+    public List<String> getArgumentSuggestions(Field argument) {
+        List<String> suggestions = new ArrayList<>();
+        if (argument != null) {
+            if (argument.getAnnotation(PlayerName.class) != null) {
+                suggestions.addAll(Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
+            } else if (argument.getType().isEnum()) {
+                suggestions.addAll(Arrays.stream(argument.getType().getEnumConstants()).map(Object::toString).collect(Collectors.toList()));
+            } else {
+                suggestions.add("[<" + argument.getName() + ">]");
             }
         }
-
-        filteredParameters = Arrays.copyOfRange(currentCommand, 1, currentCommand.length);
-        if (currentFields.isEmpty() || currentFields.size() < filteredParameters.length || filteredParameters.length == 0) {
-            return null;
-        }
-
-        return currentFields.get(filteredParameters.length - 1);
+        return suggestions;
     }
-
 
 }

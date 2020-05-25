@@ -15,7 +15,5 @@ public class ConfigCommand extends ICommand {
     @CommandArg(name="test", description = "test variable")
     public String test;
 
-
-
     public String error;
 }
