@@ -18,14 +18,12 @@ public class TeleporterManager {
         // remove if teleporter location already exist
         try {
             Teleporter teleporterFind = teleporters.values().stream().filter(t -> teleporterName.equalsIgnoreCase(t.getName())).findFirst().get();
-            if (teleporterFind.getName().equalsIgnoreCase(teleporterName)) {
-                if (type == TeleporterType.INPUT) {
-                    teleporterFind.getFrom().removeBlock();
-                    teleporterFind.setFrom(null);
-                } else if (type == TeleporterType.OUTPUT) {
-                    teleporterFind.getTo().removeBlock();
-                    teleporterFind.setTo(null);
-                }
+            if (type == TeleporterType.INPUT) {
+                teleporterFind.getFrom().removeBlock();
+                teleporterFind.setFrom(null);
+            } else if (type == TeleporterType.OUTPUT) {
+                teleporterFind.getTo().removeBlock();
+                teleporterFind.setTo(null);
             }
             teleporter = teleporterFind;
         } catch (NoSuchElementException e) {
@@ -45,7 +43,7 @@ public class TeleporterManager {
         SkyDefender.getInstance().getTeleporters().put(teleporterName, teleporter);
     }
 
-    public Teleporter getTeleporter(Player player, Location location) {
+    public Teleporter getTeleporter(Location location) {
         try {
             return SkyDefender.getInstance().getTeleporters().values()
                     .stream().filter(t ->

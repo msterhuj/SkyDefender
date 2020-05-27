@@ -14,7 +14,7 @@ public class TeleporterEnter implements Listener {
     public void teleporterEnter(PlayerInteractEvent event) {
         if (event.getAction().equals(Action.PHYSICAL)) {
             if (event.getClickedBlock().getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE){
-                Teleporter teleporter = SkyDefender.getInstance().getTeleporterManager().getTeleporter(event.getPlayer(), event.getClickedBlock().getLocation());
+                Teleporter teleporter = SkyDefender.getInstance().getTeleporterManager().getTeleporter(event.getClickedBlock().getLocation());
                 if (teleporter != null) teleporter.teleportPlayer(event.getPlayer(), true);
             }
         }
