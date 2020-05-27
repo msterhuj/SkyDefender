@@ -1,30 +1,35 @@
 package io.msterhuj.skydefender.core.teleporter;
 
-import io.msterhuj.skydefender.SkyDefender;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Teleporter {
 
-    private TeleporterZone zone;
-    private TeleporterType type;
-    private Material oldBlock;
+    private String name;
     private TeleporterLocation from;
     private TeleporterLocation to;
 
-    public Location getToLocation() {
-        return new org.bukkit.Location(
-                SkyDefender.getPlugin().getServer().getWorld(this.to.getWorldUUID()),
-                this.to.getX(),
-                this.to.getY(),
-                this.to.getZ()
-        );
+    public Teleporter(String name) {
+        this.name = name;
+    }
+
+    public void teleportPlayer(Player player, boolean keepPlayerDirection) {
+
+        if (this.to != null) {
+            Location toLocation = this.to.getLocation();
+            toLocation.setX(toLocation.getBlockX() + 0.5);
+            toLocation.setZ(toLocation.getBlockZ() + 0.5);
+
+            if (keepPlayerDirection) toLocation.setDirection(player.getLocation().getDirection());
+
+            player.teleport(toLocation);
+        } else {
+            player.sendMessage("No output teleporter set !");
+        }
     }
 }
