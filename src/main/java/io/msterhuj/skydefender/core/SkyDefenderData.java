@@ -2,6 +2,7 @@ package io.msterhuj.skydefender.core;
 
 import io.msterhuj.skydefender.core.rules.Rules;
 import io.msterhuj.skydefender.core.teams.Team;
+import io.msterhuj.skydefender.core.teams.TeamManager;
 import io.msterhuj.skydefender.core.teleporter.Teleporter;
 import io.msterhuj.skydefender.core.teleporter.TeleporterManager;
 import lombok.Data;
@@ -16,6 +17,7 @@ import java.util.Set;
 public class SkyDefenderData {
 
     private TeleporterManager teleporterManager;
+    private TeamManager teamManager;
 
     private GameStatus status;
     private Set<SkyDefPlayer> players;
@@ -28,9 +30,13 @@ public class SkyDefenderData {
 
     public SkyDefenderData() {
         this.setStatus(GameStatus.WAITING);
+
+        this.teleporterManager = new TeleporterManager();
+        this.teamManager = new TeamManager(true);
+
         this.players = new HashSet<>();
         this.randomTeamPlayers = new HashSet<>();
-        this.teleporterManager = new TeleporterManager();
+        this.teams = new ArrayList<>();
         this.teleporters = new HashMap<>();
         this.rules = new Rules();
     }

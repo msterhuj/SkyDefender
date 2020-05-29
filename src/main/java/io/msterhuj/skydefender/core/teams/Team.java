@@ -14,8 +14,7 @@ public class Team {
     private Teams info;
     private HashMap<UUID, SkyDefPlayer> players;
 
-    public Team() {
-        this.info = Teams.BLUE;
+    public Team(Teams info) {
+        this.info = info;
     }
-
 }
