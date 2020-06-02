@@ -1,4 +1,4 @@
-package io.msterhuj.skydefender.core.teams;
+package io.msterhuj.skydefender.core.rules.teams;
 
 public enum TeamMode {
     RANDOM,
