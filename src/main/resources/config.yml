@@ -1,10 +1,9 @@
 # set to true if you want configure the game by config.yml
-# <!> warn <!> if it's true the rules write here is forced on game data
-override-game-config: false
+# <!> warn <!> dont forget to run /skydefender reloadconfig
 
 rules:
-  # alone -> only defender team
-  # teams -> enable
+  # alone -> only defender, attacker and spectator teams
+  # teams -> enable all teams (9 without spectator team)
   game-type: alone
 
   # true -> example "one attacker just die"
@@ -15,23 +14,19 @@ rules:
   # false -> example "your team mate die by {die_reason}"
   hide-death-for-teams: false
 
-  pvp:
-    at-day: 3
-
-    # true -> like 1.8 pvp
-    old-mode: true
+  pvp-at-day: 3 # set to 0 for disable
 
   # enable or disable dimensions type
   world:
     nether:
       enable: true
-      at-day: 5
+      at-day: 5 # set to 0 for
       # true -> defender can use nether before attacker
       bypass-defender: true
     end:
       enable: false
-      at-day: 0
-      bypass-defender: false
+      at-day: 0 # set to 0 for
+      bypass-defender: false # true -> defender can use nether before attacker
 
   teams:
     # random  -> generated randomly
@@ -44,7 +39,9 @@ rules:
 
     # if game-type is alone this feature explain a private
     # chat for all attacker and private chat for defender
+    # run /all for speaks to all
     private-chat-for-team: true
 
-    max-attractant-teams: 6
+    # only if mode : random
+    max-attacker-teams: 6
     max-player-per-teams: 4

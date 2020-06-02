@@ -16,7 +16,6 @@ public class Rules {
     private boolean hideDeath;
     private boolean hideDeathForTeams;
     private int pvpAllowedAtDay;
-    private boolean oldPVP;
 
     private HashMap<WorldType, WorldRules> worlds;
 
@@ -28,17 +27,19 @@ public class Rules {
         SkyDefender plugin = SkyDefender.getPlugin();
 
         FileConfiguration configuration = plugin.getConfig();
-        if (configuration.get("rules.game-type") == "teams") {
-            this.setGameType(GameType.TEAMS);
-        } else this.setGameType(GameType.ALONE);
-        this.setHideDeath(configuration.getBoolean("rules.hide-death"));
-        this.setHideDeathForTeams(configuration.getBoolean("rules.hide-death-for-teams"));
-        this.setPvpAllowedAtDay(configuration.getInt("rules.pvp.at-day"));
-        this.setOldPVP(configuration.getBoolean("rules.pvp.old-mode"));
+        ConfigurationSection rulesSection = configuration.createSection("rules");
+
+        if (rulesSection.get("game-type") == "teams")  this.setGameType(GameType.TEAMS);
+        else this.setGameType(GameType.ALONE);
+
+        this.setHideDeath(rulesSection.getBoolean("hide-death"));
+        this.setHideDeathForTeams(rulesSection.getBoolean("hide-death-for-teams"));
+
+        this.setPvpAllowedAtDay(rulesSection.getInt("pvp-at-day"));
 
         // world configuration
         this.worlds = new HashMap<>();
-        for (String s : configuration.getConfigurationSection("rules.world").getKeys(false)) {
+        for (String s : rulesSection.getConfigurationSection("world").getKeys(false)) {
             ConfigurationSection section = configuration.getConfigurationSection("rules.world."+s);
 
             WorldRules worldRule = new WorldRules();

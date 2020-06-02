@@ -1,6 +1,5 @@
 package io.msterhuj.skydefender.core;
 
-import io.msterhuj.skydefender.core.teams.TeamMode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -12,7 +11,6 @@ public class SkyDefPlayer {
 
     private UUID uuid;
     private String pseudo;
-    private TeamMode choiceMode;
     private boolean dead;
 
     public SkyDefPlayer() {
