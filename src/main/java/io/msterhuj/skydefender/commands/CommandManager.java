@@ -11,7 +11,7 @@ public class CommandManager {
     private List<ICommandRoot> commands = new ArrayList<>();
 
     public CommandManager(JavaPlugin javaPlugin) {
-        this.commands.add(null); //TODO add root commands
+        this.commands.add(new SkyDefenderCommand());
 
         javaPlugin.getLogger().info("Loading commands");
 

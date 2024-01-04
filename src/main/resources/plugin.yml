@@ -9,7 +9,7 @@ prefix: SkyDefender
 
 commands:
   skydefender:
-    description: all command for skyfender
+    description: all commands for skydefender
     aliases:
       - skydef
       - sd

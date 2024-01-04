@@ -1,8 +1,6 @@
 package io.msterhuj.skydefender.commands.core;
 
-import io.msterhuj.skydefender.commands.core.annotations.Command;
 import lombok.Data;
-
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -14,17 +12,15 @@ public abstract class ICommandRoot extends ICommand implements CommandExecutor, 
 
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String alias, String[] args) {
-        return true;
+        if (args.length > 0 && args[args.length - 1].equalsIgnoreCase("help")) {
+            return getCurrentCommand(args).help(commandSender);
+        }
+        return getCurrentCommand(args).execute(commandSender, command, alias, args);
     }
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, org.bukkit.command.Command command, String alias, String[] args) {
-        return null;
+        return getSuggestions(args);
     }
-
-    public String getName() {
-        return getClass().getAnnotation(Command.class).name();
-    }
-
 
 }
