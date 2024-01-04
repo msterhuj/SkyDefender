@@ -1,8 +1,8 @@
 name: SkyDefender
 description: A test plugin
-main: io.msterhuj.skydefender.Main
+main: io.msterhuj.skydefender.SkyDefender
 version: '1.0'
-api-version: 1.15.2
+api-version: 1.15
 author: ['MsterHuj', 'GrossBaleine']
 website: https://github.com/msterhuj/SkyDefender
 prefix: SkyDefender

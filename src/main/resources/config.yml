@@ -1,0 +1,50 @@
+# set to true if you want configure the game by config.yml
+# <!> warn <!> if it's true the rules write here is forced on game data
+override-game-config: false
+
+rules:
+  # alone -> only defender team
+  # teams -> enable
+  game-type: alone
+
+  # true -> example "one attacker just die"
+  # false -> example "attacker killed by {player_name}"
+  hide-death: true
+
+  # true -> example "one defender just die"
+  # false -> example "your team mate die by {die_reason}"
+  hide-death-for-teams: false
+
+  pvp:
+    at-day: 3
+
+    # true -> like 1.8 pvp
+    old-mode: true
+
+  # enable or disable dimensions type
+  world:
+    nether:
+      enable: true
+      at-day: 5
+      # true -> defender can use nether before attacker
+      bypass-defender: true
+    end:
+      enable: false
+      at-day: 0
+      bypass-defender: false
+
+  teams:
+    # random  -> generated randomly
+    # manual -> operator setup team
+    # choose -> player choose team
+    mode: manual # random / manual / choose
+
+    # true -> team can fight in self
+    friendly-fire: false
+
+    # if game-type is alone this feature explain a private
+    # chat for all attacker and private chat for defender
+    private-chat-for-team: true
+
+    max-attractant-teams: 6
+    max-player-per-teams: 4

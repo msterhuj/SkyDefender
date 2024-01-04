@@ -1,0 +1,42 @@
+rules:
+  # alone -> only defender team
+  # teams -> enable
+  game-style: ""
+
+  # true -> example "one attackant juste die"
+  # false -> example "attackant killed by {player_name}"
+  hide-death: true
+
+  # true -> example "one defender juste die"
+  # false -> example "your coecipeded die by {die_rason}"
+  hide-death-for-teams: false
+
+  pvp:
+    at-day: 3
+
+    # true -> like 1.8 pvp
+    old-mode: true
+
+  # enable or disable dimentions
+  nether:
+    enable: true
+    at-day: 5
+    # true -> defender can use nether before attackant
+    bypass-defender: true
+  end:
+    enable: false
+    at-day: 0
+    bypass-defender: false
+
+teams:
+  # teams  -> generated randomly
+  # manual -> operator setup team
+  # choose -> player choose team
+  mode: "" # random / manual / choose
+
+  # true -> team can fight in self
+  friendly-fire: false
+  private-chat-for-team: true
+
+  max-teams: 0
+  max-player-per-teams: 0
