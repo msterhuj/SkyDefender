@@ -12,6 +12,7 @@ public enum Teams {
     PINK("Pink", Material.PINK_WOOL, ChatColor.LIGHT_PURPLE),
     LIGHT_PURPLE("Purple", Material.PURPLE_WOOL, ChatColor.DARK_PURPLE),
     WHITE("White", Material.WHITE_WOOL, ChatColor.WHITE),
+    SPECTATOR("Spectator", Material.BARRIER, ChatColor.DARK_GRAY),
     DEFENDER("Defender", Material.SHIELD, ChatColor.AQUA);
 
     private String name;

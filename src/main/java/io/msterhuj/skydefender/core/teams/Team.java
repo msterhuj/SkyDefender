@@ -11,16 +11,10 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Team {
 
-    private Teams teamColor;
+    private Teams info;
     private HashMap<UUID, SkyDefPlayer> players;
 
-    public void addPlayer(SkyDefPlayer skyDefPlayer) {
-        skyDefPlayer.setTeam(this);
-        this.players.put(skyDefPlayer.getUuid(), skyDefPlayer);
-    }
-
-    public void removePlayer(UUID uuid) {
-        this.players.get(uuid).setTeam(null);
-        this.players.remove(uuid);
+    public Team(Teams info) {
+        this.info = info;
     }
 }
